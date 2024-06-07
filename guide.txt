@@ -1,0 +1,35 @@
+**Cài đặt Môi Trường:**
+
+1. **Cài đặt Python 3.7.9 và Visual Studio Code:**
+– Bắt đầu bằng việc cài đặt Python phiên bản 3.7.9 từ trang web chính thức của Python (https://www.python.org/downloads/release/python-379/).
+– Sau đó, cài đặt Visual Studio C++ để hỗ trợ các thư viện Python cần thiết.
+
+2. **Tải và Giải Nén Mã Nguồn:**
+– Tải mã nguồn của dự án bằng cách sử dụng git clone hoặc tải mã nguồn dưới dạng ZIP từ trang dự án.
+– Sau khi tải xong, giải nén mã nguồn vào một thư mục trên máy tính của bạn.
+
+3. **Cài Đặt Các Dependency Cần Thiết:**
+– Sử dụng lệnh `pip install -r requirements.txt` để cài đặt các thư viện Python cần thiết cho dự án.
+
+4. **Kiểm Tra Sự Chuẩn Bị Hoàn Tất:**
+– Nếu không có lỗi xuất hiện, chương trình đã sẵn sàng để sử dụng.
+
+**Hướng Dẫn Sử Dụng:**
+
+5. **Tải Dữ Liệu Đào Tạo và Datasets:**
+– Giải nén file dât.zip để có bộ dữ liệu
+
+6. **Huấn Luyện:**
+– Mở tệp `train_model.py`.
+– Chạy lệnh `python train_clf.py` để bắt đầu quá trình huấn luyện. Lưu ý rằng thời gian huấn luyện có thể kéo dài tùy thuộc cấu hình máy.
+
+7. **Chạy Nhận Diện:**
+- Di chuyển file trọng số vừa huấn luyện được vào folder model con của folder gốc
+– Bạn có thể chạy nhận diện từ camera, tệp ảnh bằng cách sử dụng các tệp `predict_camera.py` và `predict_image.py` tương ứng.
+    + Nhận diện camera: Chạy lệnh `python predict_camera.py`
+    + Lưu ý nhận diện ảnh: Chọn những ảnh cần thử nghiệm sau đó cho vào folder images con của thư mục gốc, sau đó chạy lệnh `python predict_images.py`  
+
+**Hướng Dẫn Sử Dụng web-app:**
+– Chạy lệnh `python api.py` để khởi động server.
+- chọn vào đường dẫn web hiển thị trên terminal của VSCode (thông thường là: "http://127.0.0.1:5000")
+- Trải nghiệm web 

@@ -1,3 +1,5 @@
-model/
+model/model_file.h5
+model/model_17_5_file.h5
 data/
 images/test
+build_model/__pycache__
