@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Facial Emotion Recognition</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="images/icon.jpg" type="image/x-icon">
+    <style>
+      body {
+        background-image: url("https://d1sr9z1pdl3mb7.cloudfront.net/wp-content/uploads/2022/03/07162020/synthetic-data-scaled.jpg");
+        background-size: cover; /* Để đảm bảo hình ảnh bao phủ toàn bộ nền */
+        background-position: center; /* Để căn giữa hình ảnh */
+        background-repeat: no-repeat; /* Để không lặp lại hình ảnh */
+        height: 100vh; /* Đảm bảo body chiếm toàn bộ chiều cao của viewport */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .container {
+        margin-top: 50px;
+        text-align: center;
+        color: aliceblue; /* Đảm bảo văn bản dễ đọc trên nền */
+      }
+      .btn-group {
+        margin-bottom: 20px;
+      }
+      .row {
+        justify-content: center;
+        margin-top: 20px;
+      }
+      #resultImage {
+        max-width: 100%;
+        height: auto;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container text-center">
+      <h1 style="color: aliceblue;">Facial Emotion Recognition</h1>
+      <div class="btn-group" role="group" aria-label="Face detection options">
+        <button id="uploadImage" class="btn btn-primary">
+          Detect from Image
+        </button>
+        <button id="startCamera" class="btn btn-success">
+          Start Real-time Detection
+        </button>
+        <button id="stopCamera" class="btn btn-danger">
+          Stop Real-time Detection
+        </button>
+      </div>
+      <br /><br />
+      <input type="file" id="imageInput" style="display: none" />
+      <video
+        id="video"
+        width="640"
+        height="480"
+        autoplay
+        style="display: none"
+      ></video>
+      <canvas
+        id="canvas"
+        width="640"
+        height="480"
+        style="display: none"
+      ></canvas>
+      <br />
+      <!-- <div class="row"> -->
+      <div id="result"></div>
+      <!-- </div> -->
+      <!-- <div class="row" style="justify-content: center">
+        <img
+          id="resultImage"
+          alt="Detected Faces"
+          style="max-width: 100%; height: auto; display: none"
+        />
+      </div> -->
+      <div id="result" class="row">
+        <img id="resultImage" alt="Detected Faces" />
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="../static/index.js"></script>
+  </body>
+</html>
