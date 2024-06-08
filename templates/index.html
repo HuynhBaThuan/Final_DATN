@@ -12,11 +12,13 @@
     <style>
       body {
         background-image: url("https://d1sr9z1pdl3mb7.cloudfront.net/wp-content/uploads/2022/03/07162020/synthetic-data-scaled.jpg");
+        /* background: linear-gradient(186deg, rgba(109,198,210,1) 37%, rgba(0,103,180,1) 100%); */
         background-size: cover; /* Để đảm bảo hình ảnh bao phủ toàn bộ nền */
         background-position: center; /* Để căn giữa hình ảnh */
         background-repeat: no-repeat; /* Để không lặp lại hình ảnh */
         height: 100vh; /* Đảm bảo body chiếm toàn bộ chiều cao của viewport */
-        display: flex;
+        width: 100vh;
+        /* display: flex; */
         justify-content: center;
         align-items: center;
       }
@@ -69,16 +71,7 @@
         style="display: none"
       ></canvas>
       <br />
-      <!-- <div class="row"> -->
       <div id="result"></div>
-      <!-- </div> -->
-      <!-- <div class="row" style="justify-content: center">
-        <img
-          id="resultImage"
-          alt="Detected Faces"
-          style="max-width: 100%; height: auto; display: none"
-        />
-      </div> -->
       <div id="result" class="row">
         <img id="resultImage" alt="Detected Faces" />
       </div>

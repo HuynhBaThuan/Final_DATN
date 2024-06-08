@@ -1,7 +1,7 @@
 **Cài đặt Môi Trường:**
 
 1. **Cài đặt Python 3.7.9 và Visual Studio Code:**
-– Bắt đầu bằng việc cài đặt Python phiên bản 3.7.9 từ trang web chính thức của Python (https://www.python.org/downloads/release/python-379/).
+– Bắt đầu bằng việc cài đặt Python phiên bản mới nhất từ trang web chính thức của Python.
 – Sau đó, cài đặt Visual Studio C++ để hỗ trợ các thư viện Python cần thiết.
 
 2. **Tải và Giải Nén Mã Nguồn:**
@@ -17,11 +17,12 @@
 **Hướng Dẫn Sử Dụng:**
 
 5. **Tải Dữ Liệu Đào Tạo và Datasets:**
-– Giải nén file dât.zip để có bộ dữ liệu
+– Giải nén file data.zip để có bộ dữ liệu
 
 6. **Huấn Luyện:**
+- Trong folder build_model
 – Mở tệp `train_model.py`.
-– Chạy lệnh `python train_clf.py` để bắt đầu quá trình huấn luyện. Lưu ý rằng thời gian huấn luyện có thể kéo dài tùy thuộc cấu hình máy.
+– Chạy lệnh `python train_model.py` để bắt đầu quá trình huấn luyện. Lưu ý rằng thời gian huấn luyện có thể kéo dài tùy thuộc cấu hình máy.
 
 7. **Chạy Nhận Diện:**
 - Di chuyển file trọng số vừa huấn luyện được vào folder model con của folder gốc
