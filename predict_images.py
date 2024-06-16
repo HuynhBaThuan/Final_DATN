@@ -6,7 +6,7 @@ import cv2
 def main():
     model=load_model('model/model_file.h5')
     directory = os.path.dirname(__file__)
-    images_folder = os.path.join(directory, 'images')
+    images_folder = os.path.join(directory, 'images/test')
     if not os.path.exists(images_folder):
         print("Thư mục 'images' không tồn tại.")
     else:
@@ -73,8 +73,8 @@ def main():
                     print(emotion_label)
 
                 # Draw emotion label on the frame
-                    text_position = (box[0], box[1] - 10)
-                    cv2.putText(image, emotion_label, text_position, font, scale, color, thickness, cv2.LINE_AA)
+                    # text_position = (box[0], box[1] - 10)
+                    # cv2.putText(image, emotion_label, text_position, font, scale, color, thickness, cv2.LINE_AA)
                 
                 cv2.imshow("Image", image)  # Hiển thị hình ảnh
                 cv2.waitKey(0)  # Chờ một phím nhấn để chuyển sang hình ảnh tiếp theo hoặc thoát

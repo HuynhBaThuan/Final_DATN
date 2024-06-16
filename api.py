@@ -40,12 +40,13 @@ def detect_faces():
     if channels == 4:
         image_np = cv2.cvtColor(image_np, cv2.COLOR_BGRA2BGR)
 
-    print(image_np.shape)
     height, width, _ = image_np.shape
     face_detector.setInputSize((width, height))
 
     _, faces = face_detector.detect(image_np)
     faces = faces if faces is not None else []
+
+    results = []  # Danh sách để chứa tất cả kết quả dự đoán
 
     for face in faces:
         box = list(map(int, face[:4]))
@@ -61,25 +62,36 @@ def detect_faces():
         sub_face_img = image_np[y:y+h, x:x+w]
         resized = cv2.resize(sub_face_img, (48, 48))
         resized = np.mean(resized, axis=2)
-        print(resized.dtype, resized.shape)
         normalize = resized / 255.0
-        print(normalize.dtype, normalize.shape)
         reshaped = np.reshape(normalize, (1, 48, 48, 1))
         result = model.predict(reshaped)
-        print(result)
         label = np.argmax(result, axis=1)[0]
-        print(label)
         emotion_label = labels_dict[label]
         print(emotion_label)
 
-    # # Draw emotion label on the frame
+        # Thêm kết quả dự đoán vào danh sách
+        results.append({
+            'box': box,
+            'result': result.tolist(),  # Chuyển kết quả thành danh sách để dễ dàng chuyển đổi thành JSON
+            'label': emotion_label
+        })
+
+        # Vẽ nhãn cảm xúc lên khung hình
         text_position = (box[0], box[1] - 10)
         cv2.putText(image_np, emotion_label, text_position, font, scale, color, thickness, cv2.LINE_AA)
 
-    output_path = os.path.join(directory, "output.jpg")
-    cv2.imwrite(output_path, image_np)
-    return send_file(output_path, mimetype='image/jpeg')
+    # Chuyển đổi hình ảnh đã xử lý sang dạng base64
+    _, buffer = cv2.imencode('.jpg', image_np)
+    image_base64 = base64.b64encode(buffer).decode('utf-8')
 
+    # Trả về JSON chứa cả hình ảnh đã xử lý và kết quả dự đoán
+    return jsonify({
+        'image': image_base64,
+        'results': results
+    })
+
+
+# Định nghĩa hàm phát hiện khuôn mặt theo thời gian thực
 @app.route('/detect_faces_realtime', methods=['POST'])
 def detect_faces_realtime():
     data = request.get_json()
@@ -96,12 +108,13 @@ def detect_faces_realtime():
     if channels == 4:
         image_np = cv2.cvtColor(image_np, cv2.COLOR_BGRA2BGR)
 
-    print(image_np.shape)
     height, width, _ = image_np.shape
     face_detector.setInputSize((width, height))
 
     _, faces = face_detector.detect(image_np)
     faces = faces if faces is not None else []
+
+    results = []  # Danh sách để chứa tất cả kết quả dự đoán
 
     for face in faces:
         box = list(map(int, face[:4]))
@@ -117,25 +130,32 @@ def detect_faces_realtime():
         sub_face_img = image_np[y:y+h, x:x+w]
         resized = cv2.resize(sub_face_img, (48, 48))
         resized = np.mean(resized, axis=2)
-        print(resized.dtype, resized.shape)
         normalize = resized / 255.0
-        print(normalize.dtype, normalize.shape)
         reshaped = np.reshape(normalize, (1, 48, 48, 1))
         result = model.predict(reshaped)
-        print(result)
         label = np.argmax(result, axis=1)[0]
-        print(label)
         emotion_label = labels_dict[label]
-        print(emotion_label)
 
-    # # Draw emotion label on the frame
+        # Thêm kết quả dự đoán vào danh sách
+        results.append({
+            'box': box,
+            'result': result.tolist(),  # Chuyển kết quả thành danh sách để dễ dàng chuyển đổi thành JSON
+            'label': emotion_label
+        })
+
+        # Vẽ nhãn cảm xúc lên khung hình
         text_position = (box[0], box[1] - 10)
         cv2.putText(image_np, emotion_label, text_position, font, scale, color, thickness, cv2.LINE_AA)
 
-    output_path = os.path.join(directory, "output.jpg")
-    cv2.imwrite(output_path, image_np)
+    # Chuyển đổi hình ảnh đã xử lý sang dạng base64
+    _, buffer = cv2.imencode('.jpg', image_np)
+    image_base64 = base64.b64encode(buffer).decode('utf-8')
 
-    return send_file(output_path, mimetype='image/jpeg')
+    # Trả về JSON chứa cả hình ảnh đã xử lý và kết quả dự đoán
+    return jsonify({
+        'image': image_base64,
+        'results': results
+    })
 
     
 if __name__ == '__main__':
