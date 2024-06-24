@@ -91,7 +91,8 @@ def detect_faces():
     })
 
 
-# Định nghĩa hàm phát hiện khuôn mặt theo thời gian thực
+# Định nghĩa api phân loại cảm xúc
+# @app.route('/emotion_recognition', methods=['POST'])
 @app.route('/detect_faces_realtime', methods=['POST'])
 def detect_faces_realtime():
     data = request.get_json()

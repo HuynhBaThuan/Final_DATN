@@ -68,6 +68,7 @@ def main():
                     # print(normalize.dtype, normalize.shape)
                     reshaped = np.reshape(normalize, (1, 48, 48, 1))
                     result = model.predict(reshaped)
+                    print(result)
                     label = np.argmax(result, axis=1)[0]
                     emotion_label = labels_dict[label]
                     print(emotion_label)

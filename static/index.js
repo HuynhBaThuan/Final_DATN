@@ -1,3 +1,5 @@
+labels_dict = { 0: 'Angry', 1: 'Disgust', 2: 'Fear', 3: 'Happy', 4: 'Neutral', 5: 'Sad', 6: 'Surprise' }
+
 document.getElementById('uploadImage').addEventListener('click', (event) => {
     event.preventDefault();
     document.getElementById('imageInput').click();
@@ -23,7 +25,7 @@ document.getElementById('imageInput').addEventListener('change', async (event) =
             document.getElementById('result').innerHTML = `<img src="data:image/jpeg;base64,${processedImage}">`;
 
             // Hiển thị các kết quả dự đoán
-            // const resultContainer = document.createElement('div');
+            const resultContainer = document.createElement('div');
             // result.results.forEach(item => {
             //     const resultElement = document.createElement('div');
             //     resultElement.classList.add('result-item');
@@ -34,6 +36,42 @@ document.getElementById('imageInput').addEventListener('change', async (event) =
             //     `;
             //     resultContainer.appendChild(resultElement);
             // });
+            result.results.forEach(item => {
+                const sortedResults = item.result[0]
+                    .map((value, index) => ({ value, index }))
+                    .sort((a, b) => b.value - a.value)
+                    .slice(0, 3);
+                console.log(sortedResults)
+
+                sortedResults.forEach(item => {
+                    item.value = (item.value * 100).toFixed(2); 
+                    let bgClass;
+                    if (item.value >= 75) {
+                        bgClass = 'bg-success';
+                    } else if (item.value >= 50) {
+                        bgClass = 'bg-info';
+                    } else if (item.value >= 25) {
+                        bgClass = 'bg-warning';
+                    } else {
+                        bgClass = 'bg-danger';
+                    }
+                    const resultElement = document.createElement('div');
+                    resultElement.classList.add('col-md-4', 'result-item');
+                    resultElement.innerHTML = `
+                     <div class="card">
+              <div class="card-body">
+                
+                <p class="card-text" style="width: 25%; color: black;"> ${labels_dict[item.index]}</p>
+                <div class="progress">
+                  <div class="progress-bar ${bgClass}" role="progressbar" style="width: ${item.value}%; color: black;" aria-valuenow="${item.value}" aria-valuemin="0" aria-valuemax="1">${item.value}%</div>
+                </div>
+              </div>
+            </div>
+          `;
+
+                    resultContainer.appendChild(resultElement);
+                })
+            });
 
             document.getElementById('result').appendChild(resultContainer);
         } else {
