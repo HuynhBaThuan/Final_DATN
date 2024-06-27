@@ -22,29 +22,21 @@ document.getElementById('imageInput').addEventListener('change', async (event) =
 
             // Hiển thị hình ảnh đã xử lý
             const processedImage = result.image;
-            document.getElementById('result').innerHTML = `<img src="data:image/jpeg;base64,${processedImage}">`;
+            document.getElementById('result').innerHTML = `<div class="col-6">
+            <img src="data:image/jpeg;base64,${processedImage}">
+        </div>`;
 
             // Hiển thị các kết quả dự đoán
             const resultContainer = document.createElement('div');
-            // result.results.forEach(item => {
-            //     const resultElement = document.createElement('div');
-            //     resultElement.classList.add('result-item');
-            //     resultElement.innerHTML = `
-            //         <p><strong>Box:</strong> ${item.box}</p>
-            //         <p><strong>Result:</strong> ${JSON.stringify(item.result)}</p>
-            //         <p><strong>Label:</strong> ${item.label}</p>
-            //     `;
-            //     resultContainer.appendChild(resultElement);
-            // });
+            resultContainer.classList.add('col-6');
             result.results.forEach(item => {
                 const sortedResults = item.result[0]
                     .map((value, index) => ({ value, index }))
                     .sort((a, b) => b.value - a.value)
                     .slice(0, 3);
-                console.log(sortedResults)
 
                 sortedResults.forEach(item => {
-                    item.value = (item.value * 100).toFixed(2); 
+                    item.value = (item.value * 100).toFixed(2);
                     let bgClass;
                     if (item.value >= 75) {
                         bgClass = 'bg-success';
@@ -56,7 +48,7 @@ document.getElementById('imageInput').addEventListener('change', async (event) =
                         bgClass = 'bg-danger';
                     }
                     const resultElement = document.createElement('div');
-                    resultElement.classList.add('col-md-4', 'result-item');
+                    resultElement.classList.add('result-item');
                     resultElement.innerHTML = `
                      <div class="card">
               <div class="card-body">
@@ -127,23 +119,48 @@ async function handlePlayEvent() {
 
             // Hiển thị hình ảnh đã xử lý
             const processedImage = result.image;
+            const elements = document.querySelectorAll('.result_realtime_predict');
+            elements.forEach(element => {
+                element.remove();
+            });
             document.getElementById('resultImage').src = `data:image/jpeg;base64,${processedImage}`;
+            const resultContainer = document.getElementById('result_realtime');
+            const resultContent = document.createElement('div');
+            resultContent.classList.add('col-4', 'result_realtime_predict');
 
-            // Xóa các kết quả cũ
-            // while (resultContainer.firstChild) {
-            //     resultContainer.removeChild(resultContainer.firstChild);
-            // }
-
-            // Hiển thị các kết quả mới
-            // result.results.forEach(item => {
-            //     const resultElement = document.createElement('div');
-            //     resultElement.innerHTML = `
-            //         <p>Box: ${item.box}</p>
-            //         <p>Result: ${JSON.stringify(item.result)}</p>
-            //         <p>Label: ${item.label}</p>
-            //     `;
-            //     resultContainer.appendChild(resultElement);
-            // });
+            result.results.forEach(item => {
+                const sortedResults = item.result[0]
+                    .map((value, index) => ({ value, index }))
+                    .sort((a, b) => b.value - a.value)
+                    .slice(0, 3);
+                sortedResults.forEach(item => {
+                    item.value = (item.value * 100).toFixed(2);
+                    let bgClass;
+                    if (item.value >= 75) {
+                        bgClass = 'bg-success';
+                    } else if (item.value >= 50) {
+                        bgClass = 'bg-info';
+                    } else if (item.value >= 25) {
+                        bgClass = 'bg-warning';
+                    } else {
+                        bgClass = 'bg-danger';
+                    }
+                    const resultElement = document.createElement('div');
+                    resultElement.classList.add('result-item');
+                    resultElement.innerHTML = `
+                        <div class="card">
+                            <div class="card-body">
+    
+                                <p class="card-text" style="width: 25%; color: black;"> ${labels_dict[item.index]}</p>
+                                <div class="progress">
+                                    <div class="progress-bar ${bgClass}" role="progressbar" style="width: ${item.value}%; color: black;" aria-valuenow="${item.value}" aria-valuemin="0" aria-valuemax="1">${item.value}%</div>
+                                </div>
+                            </div>
+                        </div>`;
+                    resultContent.appendChild(resultElement);
+                })
+            })
+            resultContainer.appendChild(resultContent);
         }
     }, 200);
 }
@@ -160,6 +177,13 @@ function stopCamera() {
         intervalId = null;
     }
     document.getElementById('resultImage').style.display = 'none';
+
+    setTimeout(() => {
+        const elements = document.querySelectorAll('.result_realtime_predict');
+        elements.forEach(element => {
+            element.remove();
+        });
+    }, 300);
 }
 
 document.getElementById('stopCamera').addEventListener('click', stopCamera);
